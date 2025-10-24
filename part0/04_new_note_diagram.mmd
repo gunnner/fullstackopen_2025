@@ -1,0 +1,32 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: User creates a new note on the page. Form Data Payload: note=42 
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    activate server
+    server-->>browser: URL redirect. HTTP status code: 302. Response header: Location - /exampleapp/notes
+    Note left of server: Server asks the browser to perform a new HTTP GET request to the address defined in the header's Location - the address /exampleapp/notes.
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: CSS file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: JS file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: JSON file
+    deactivate server
+    Note left of server: Raw data of the notes
+    Note right of browser: The browser executes the callback function that renders the notes
